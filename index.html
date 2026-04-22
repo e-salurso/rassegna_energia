@@ -538,20 +538,38 @@ const FEEDS = [
   { title: "Investing.com Energia", url: "https://it.investing.com/rss/news_14.rss", category: "prezzi-mercati", color: "prezzi" },
 ];
 
-// CORS proxy — gratuito, nessun account richiesto
-const PROXY = "https://api.allorigins.win/raw?url=";
+// CORS proxies — tentati in ordine fino al primo che funziona
+const PROXIES = [
+  url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+  url => `https://thingproxy.freeboard.io/fetch/${url}`,
+  url => `https://cors.eu.org/${url}`,
+];
 
 let allArticles = [];
 let currentFilter = "all";
 
 // ————————————————————————————
-// Fetch a single feed
+// Fetch a single feed (with proxy fallback)
 // ————————————————————————————
+async function fetchWithFallback(url) {
+  for (const makeProxy of PROXIES) {
+    try {
+      const res = await fetch(makeProxy(url), { signal: AbortSignal.timeout(8000) });
+      if (!res.ok) continue;
+      const text = await res.text();
+      if (text && text.length > 100) return text;
+    } catch (e) {
+      // try next proxy
+    }
+  }
+  return null;
+}
+
 async function fetchFeed(feed) {
   try {
-    const res = await fetch(PROXY + encodeURIComponent(feed.url), { signal: AbortSignal.timeout(10000) });
-    if (!res.ok) throw new Error("HTTP " + res.status);
-    const text = await res.text();
+    const text = await fetchWithFallback(feed.url);
+    if (!text) throw new Error("All proxies failed");
     const parser = new DOMParser();
     const xml = parser.parseFromString(text, "application/xml");
 
