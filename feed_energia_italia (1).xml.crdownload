@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ============================================================
+  FEED RSS AGGREGATO - MERCATO ENERGETICO ITALIA & EUROPA
+  Versione: 1.0
+  Aggiornato: Aprile 2026
+  Standard: RSS 2.0 (https://www.rssboard.org/rss-specification)
+
+  STRUTTURA DEL FEED:
+  Questo file contiene la definizione dei canali RSS da aggregare
+  tramite un reader (Feedly, Inoreader, NewsBlur, ecc.).
+
+  CATEGORIE TEMATICHE:
+    1. Prezzi all'ingrosso (PUN, PSV/TTF, carburanti)
+    2. Normativa e regolazione (ARERA, MASE, UE)
+    3. Mercati rinnovabili e transizione energetica
+    4. News di settore (testate specializzate)
+    5. Dati e statistiche istituzionali
+  ============================================================
+-->
+
+<opml version="2.0">
+  <head>
+    <title>Feed RSS - Mercato Energetico Italia &amp; Europa</title>
+    <dateCreated>Wed, 22 Apr 2026 00:00:00 +0200</dateCreated>
+    <ownerName>Feed Energia Personalizzato</ownerName>
+  </head>
+
+  <body>
+
+    <!-- ============================================================
+         CATEGORIA 1: TESTATE SPECIALIZZATE ITALIANE
+         Aggiornamento: quotidiano
+         Priorità: ALTA — fonte primaria per operatori di mercato
+         ============================================================ -->
+    <outline text="📰 Testate Specializzate Italiane" title="Testate Specializzate Italiane">
+
+      <!--
+        STAFFETTA QUOTIDIANA
+        URL sito: https://www.staffettaonline.com
+        URL feed RSS: https://www.staffettaonline.com/rss.aspx
+        Contenuto: Prezzi petrolio, gas, elettricità, leggi, decreti, gare
+        Nota: Feed multipli per sezione (prima pagina, rinnovabili, prezzi...)
+              Accesso completo solo per abbonati
+        Frequenza aggiornamento: più volte al giorno
+      -->
+      <outline
+        type="rss"
+        text="Staffetta Quotidiana - Prima Pagina"
+        title="Staffetta Quotidiana"
+        description="Quotidiano delle fonti di energia dal 1933. Mercati, prezzi, normativa."
+        xmlUrl="https://www.staffettaonline.com/rss.aspx"
+        htmlUrl="https://www.staffettaonline.com"
+        language="it"
+        category="testate-italiane"
+        tags="prezzi, gas, elettricità, normativa, mercato, petrolio"
+      />
+
+      <!--
+        QUOTIDIANO ENERGIA
+        URL sito: https://www.quotidianoenergia.it
+        URL feed RSS: https://www.quotidianoenergia.it/feed/
+        Contenuto: Gas, elettricità, rinnovabili, carburanti, CO2, normativa,
+                   previsioni mercato extrarete, prezzi giornalieri
+        Frequenza aggiornamento: più volte al giorno (dal 2005)
+      -->
+      <outline
+        type="rss"
+        text="Quotidiano Energia"
+        title="Quotidiano Energia"
+        description="Notizie, analisi, indici e prezzi energetici. Mercati gas, elettricità, rinnovabili, mobilità."
+        xmlUrl="https://www.quotidianoenergia.it/feed/"
+        htmlUrl="https://www.quotidianoenergia.it"
+        language="it"
+        category="testate-italiane"
+        tags="prezzi, gas, elettricità, carburanti, rinnovabili, CO2, normativa"
+      />
+
+      <!--
+        QUALENERGIA
+        URL sito: https://www.qualenergia.it
+        URL feed RSS: https://www.qualenergia.it/feed/
+        Contenuto: Scenari energetici, analisi PUN, politiche UE,
+                   rinnovabili, efficienza energetica, mercati
+        Frequenza aggiornamento: giornaliera
+      -->
+      <outline
+        type="rss"
+        text="QualEnergia"
+        title="QualEnergia.it"
+        description="Mercati, tecnologie e scenari energetici. Analisi PUN, mix energetici, decarbonizzazione."
+        xmlUrl="https://www.qualenergia.it/feed/"
+        htmlUrl="https://www.qualenergia.it"
+        language="it"
+        category="testate-italiane"
+        tags="PUN, rinnovabili, analisi, scenari, mercato elettrico, decarbonizzazione"
+      />
+
+      <!--
+        RINNOVABILI.IT
+        URL sito: https://www.rinnovabili.it
+        URL feed RSS: https://www.rinnovabili.it/feed/
+        Contenuto: GME, ARERA, rinnovabili, prezzi elettricità e gas,
+                   normativa, transizione energetica
+        Frequenza aggiornamento: giornaliera
+      -->
+      <outline
+        type="rss"
+        text="Rinnovabili.it - Energia"
+        title="Rinnovabili.it"
+        description="Notizie su rinnovabili, GME, ARERA, prezzi e normativa energetica italiana."
+        xmlUrl="https://www.rinnovabili.it/feed/"
+        htmlUrl="https://www.rinnovabili.it/energia/"
+        language="it"
+        category="testate-italiane"
+        tags="GME, ARERA, rinnovabili, PUN, PSV, prezzi, normativa"
+      />
+
+      <!--
+        ENERGIA ITALIA NEWS
+        URL sito: https://www.energiaitalia.news
+        URL feed RSS: https://www.energiaitalia.news/feed/
+        Contenuto: Transizione energetica Italia, ARERA, CER,
+                   mercato libero, rinnovabili, auto elettriche
+        Frequenza aggiornamento: giornaliera
+      -->
+      <outline
+        type="rss"
+        text="Energia Italia News"
+        title="Energia Italia News"
+        description="Transizione energetica, mercato libero, CER, rinnovabili e politiche energetiche in Italia."
+        xmlUrl="https://www.energiaitalia.news/feed/"
+        htmlUrl="https://www.energiaitalia.news"
+        language="it"
+        category="testate-italiane"
+        tags="transizione energetica, CER, mercato libero, ARERA, rinnovabili"
+      />
+
+      <!--
+        ENERGIA MERCATO
+        URL sito: https://www.energiamercato.it
+        URL feed RSS: https://www.energiamercato.it/feed/
+        Contenuto: Mercato energetico italiano, acquisizioni, infrastrutture,
+                   Snam, GSE, CER, normativa di settore
+        Frequenza aggiornamento: più volte a settimana
+      -->
+      <outline
+        type="rss"
+        text="Energia Mercato"
+        title="Energia Mercato"
+        description="News di mercato: acquisizioni, infrastrutture, GSE, Snam, normativa energetica."
+        xmlUrl="https://www.energiamercato.it/feed/"
+        htmlUrl="https://www.energiamercato.it/notizie/mercato"
+        language="it"
+        category="testate-italiane"
+        tags="mercato energetico, Snam, GSE, infrastrutture, acquisizioni, CER"
+      />
+
+    </outline>
+
+
+    <!-- ============================================================
+         CATEGORIA 2: FONTI ISTITUZIONALI ITALIANE
+         Aggiornamento: variabile (settimanale / al momento della pubblicazione)
+         Priorità: ALTA — fonte primaria per normativa e prezzi ufficiali
+         ============================================================ -->
+    <outline text="🏛️ Istituzioni Italiane" title="Istituzioni Italiane">
+
+      <!--
+        ARERA - Autorità di Regolazione per Energia Reti e Ambiente
+        URL sito: https://www.arera.it
+        URL feed RSS: https://www.arera.it/rss/ultimenotizie.xml
+        Contenuto: Delibere, tariffe luce e gas, comunicati stampa,
+                   aggiornamenti su mercato tutelato, bonus sociali
+        Frequenza aggiornamento: al momento della pubblicazione
+      -->
+      <outline
+        type="rss"
+        text="ARERA - Ultime Notizie"
+        title="ARERA"
+        description="Delibere, tariffe, comunicati ufficiali dell'Autorità di Regolazione per Energia Reti e Ambiente."
+        xmlUrl="https://www.arera.it/rss/ultimenotizie.xml"
+        htmlUrl="https://www.arera.it"
+        language="it"
+        category="istituzioni-italiane"
+        tags="ARERA, delibere, tariffe, gas, elettricità, regolazione, mercato tutelato"
+      />
+
+      <!--
+        GME - Gestore dei Mercati Energetici
+        URL sito: https://www.mercatoelettrico.org
+        URL feed RSS: https://www.mercatoelettrico.org/it/news/rss.aspx
+        Contenuto: PUN (Prezzo Unico Nazionale elettricità), PSV (gas),
+                   aggiornamenti mensili dei mercati, TEE, GO
+        Frequenza aggiornamento: giornaliera / mensile per report
+        Note: Prezzi di riferimento ufficiali all'ingrosso italiani
+      -->
+      <outline
+        type="rss"
+        text="GME - Gestore Mercati Energetici"
+        title="GME - Mercato Elettrico"
+        description="Prezzi ufficiali PUN e PSV. Aggiornamenti su mercati elettrici, gas, TEE e Garanzie d'Origine."
+        xmlUrl="https://www.mercatoelettrico.org/it/news/rss.aspx"
+        htmlUrl="https://www.mercatoelettrico.org"
+        language="it"
+        category="istituzioni-italiane"
+        tags="PUN, PSV, mercato elettrico, prezzi all'ingrosso, TEE, garanzie origine"
+      />
+
+      <!--
+        GSE - Gestore Servizi Energetici
+        URL sito: https://www.gse.it
+        URL feed RSS: https://www.gse.it/notizie-ed-eventi/news/rss
+        Contenuto: Incentivi rinnovabili, statistiche settoriali,
+                   conto energia, agrivoltaico, CER, GAUDI
+        Frequenza aggiornamento: settimanale
+      -->
+      <outline
+        type="rss"
+        text="GSE - Gestore Servizi Energetici"
+        title="GSE News"
+        description="News su incentivi rinnovabili, statistiche, CER, Conto Energia e aggiornamenti normativi."
+        xmlUrl="https://www.gse.it/notizie-ed-eventi/news/rss"
+        htmlUrl="https://www.gse.it"
+        language="it"
+        category="istituzioni-italiane"
+        tags="GSE, rinnovabili, incentivi, CER, Conto Energia, statistiche"
+      />
+
+      <!--
+        MASE - Ministero dell'Ambiente e della Sicurezza Energetica
+        URL sito: https://www.mase.gov.it
+        URL feed RSS: https://www.mase.gov.it/comunicati-stampa/rss.xml
+        Contenuto: Decreti ministeriali, PNIEC, FER, sicurezza energetica,
+                   comunicati su politica energetica nazionale
+        Frequenza aggiornamento: al momento della pubblicazione
+      -->
+      <outline
+        type="rss"
+        text="MASE - Min. Ambiente e Sicurezza Energetica"
+        title="MASE"
+        description="Decreti, comunicati e aggiornamenti del Ministero dell'Ambiente e della Sicurezza Energetica."
+        xmlUrl="https://www.mase.gov.it/comunicati-stampa/rss.xml"
+        htmlUrl="https://www.mase.gov.it"
+        language="it"
+        category="istituzioni-italiane"
+        tags="MASE, decreto, PNIEC, FER, sicurezza energetica, politica energetica"
+      />
+
+      <!--
+        TERNA - Rete Elettrica Nazionale
+        URL sito: https://www.terna.it
+        URL feed RSS: https://www.terna.it/it/media/comunicati-stampa/rss
+        Contenuto: Comunicati su rete elettrica, domanda nazionale,
+                   piani di sviluppo, dati di dispacciamento
+        Frequenza aggiornamento: al momento della pubblicazione
+      -->
+      <outline
+        type="rss"
+        text="TERNA - Rete Elettrica"
+        title="TERNA"
+        description="Comunicati su rete elettrica nazionale, domanda, piani di sviluppo e dispacciamento."
+        xmlUrl="https://www.terna.it/it/media/comunicati-stampa/rss"
+        htmlUrl="https://www.terna.it"
+        language="it"
+        category="istituzioni-italiane"
+        tags="TERNA, rete elettrica, dispacciamento, domanda elettrica, infrastrutture"
+      />
+
+      <!--
+        GAZZETTA UFFICIALE - Sezione Energia
+        URL sito: https://www.gazzettaufficiale.it
+        URL feed RSS (energia): https://www.gazzettaufficiale.it/dynamicajax/pages/guri/rss.jsp?categoria=5
+        Contenuto: Decreti legislativi, leggi, provvedimenti ufficiali
+                   inerenti il settore energia pubblicati in GU
+        Frequenza aggiornamento: giornaliera (giorni feriali)
+        Nota: Monitorare per aggiornamenti su DL e DM energia
+      -->
+      <outline
+        type="rss"
+        text="Gazzetta Ufficiale - Energia e Ambiente"
+        title="Gazzetta Ufficiale"
+        description="Decreti e leggi in materia energetica pubblicati nella Gazzetta Ufficiale."
+        xmlUrl="https://www.gazzettaufficiale.it/dynamicajax/pages/guri/rss.jsp?categoria=5"
+        htmlUrl="https://www.gazzettaufficiale.it"
+        language="it"
+        category="istituzioni-italiane"
+        tags="Gazzetta Ufficiale, decreti, leggi, normativa, energia, ambiente"
+      />
+
+    </outline>
+
+
+    <!-- ============================================================
+         CATEGORIA 3: ISTITUZIONI EUROPEE E INTERNAZIONALI
+         Aggiornamento: variabile
+         Priorità: MEDIA — indispensabile per contesto di mercato UE
+         ============================================================ -->
+    <outline text="🇪🇺 Istituzioni Europee e Internazionali" title="Istituzioni Europee e Internazionali">
+
+      <!--
+        ACER - Agency for the Cooperation of Energy Regulators
+        URL sito: https://www.acer.europa.eu
+        URL feed RSS: https://www.acer.europa.eu/rss.xml
+        Contenuto: Raccomandazioni UE su mercati elettrici e gas,
+                   monitoraggio REMIT, codici di rete, rapporti CEER/ACER
+        Frequenza aggiornamento: settimanale
+      -->
+      <outline
+        type="rss"
+        text="ACER - EU Energy Regulators"
+        title="ACER"
+        description="Raccomandazioni UE su mercati elettrici e gas, REMIT, codici di rete e rapporti di monitoraggio."
+        xmlUrl="https://www.acer.europa.eu/rss.xml"
+        htmlUrl="https://www.acer.europa.eu/news-and-events/news"
+        language="en"
+        category="istituzioni-europee"
+        tags="ACER, REMIT, mercato europeo, regolazione, gas, elettricità, UE"
+      />
+
+      <!--
+        IEA - International Energy Agency
+        URL sito: https://www.iea.org
+        URL feed RSS: https://www.iea.org/rss/news.xml
+        Contenuto: Report globali su mercati energetici, prezzi,
+                   sicurezza energetica, rinnovabili, transizione
+        Frequenza aggiornamento: settimanale
+      -->
+      <outline
+        type="rss"
+        text="IEA - International Energy Agency"
+        title="IEA News"
+        description="Report globali su mercati energetici, prezzi internazionali, sicurezza e transizione energetica."
+        xmlUrl="https://www.iea.org/rss/news.xml"
+        htmlUrl="https://www.iea.org"
+        language="en"
+        category="istituzioni-europee"
+        tags="IEA, mercato globale, sicurezza energetica, prezzi internazionali, rinnovabili"
+      />
+
+      <!--
+        COMMISSIONE EUROPEA - DG Energy
+        URL sito: https://energy.ec.europa.eu
+        URL feed RSS: https://energy.ec.europa.eu/news/rss_en
+        Contenuto: Politiche energetiche UE, REPowerEU,
+                   regolamenti gas/elettricità, pacchetti legislativi
+        Frequenza aggiornamento: settimanale
+      -->
+      <outline
+        type="rss"
+        text="EU Commission - DG Energy"
+        title="European Commission - Energy"
+        description="Politiche energetiche UE, REPowerEU, regolamenti su gas ed elettricità, pacchetti legislativi."
+        xmlUrl="https://energy.ec.europa.eu/news/rss_en"
+        htmlUrl="https://energy.ec.europa.eu"
+        language="en"
+        category="istituzioni-europee"
+        tags="UE, REPowerEU, politica energetica, regolamenti, mercato interno energia"
+      />
+
+      <!--
+        S&P GLOBAL / PLATTS - Energy News RSS
+        URL sito: https://www.spglobal.com/energy
+        URL feed RSS: https://www.spglobal.com/commodityinsights/en/rss-feed
+        Contenuto: Prezzi commodity (TTF, Brent, Henry Hub),
+                   analisi mercati europei, LNG, gas naturale
+        Frequenza aggiornamento: più volte al giorno
+        Nota: Contesto internazionale prezzi gas (TTF olandese,
+              benchmark principale per il PSV italiano)
+      -->
+      <outline
+        type="rss"
+        text="S&amp;P Global Commodity Insights (Platts)"
+        title="S&amp;P Global Energy"
+        description="Prezzi commodity internazionali: TTF, Brent, LNG. Analisi mercati europei di gas e elettricità."
+        xmlUrl="https://www.spglobal.com/commodityinsights/en/rss-feed"
+        htmlUrl="https://www.spglobal.com/energy/en/news-research/latest-news"
+        language="en"
+        category="istituzioni-europee"
+        tags="TTF, Brent, LNG, gas naturale, commodity, prezzi internazionali"
+      />
+
+    </outline>
+
+
+    <!-- ============================================================
+         CATEGORIA 4: PREZZI E MERCATI (MONITORAGGIO DEDICATO)
+         Fonti specifiche per il tracking quotidiano dei prezzi
+         all'ingrosso e delle quotazioni di riferimento
+         ============================================================ -->
+    <outline text="📈 Prezzi e Mercati" title="Prezzi e Mercati">
+
+      <!--
+        ABBASSA LE BOLLETTE - Mercati e Prezzi
+        URL sito: https://www.abbassalebollette.it
+        URL feed RSS: https://www.abbassalebollette.it/feed/
+        Contenuto: Analisi quotidiane PUN, PSV, IGI,
+                   commenti su volatilità e driver di prezzo
+        Frequenza aggiornamento: giornaliera
+        Nota: Ottimo per commento rapido sulle quotazioni
+      -->
+      <outline
+        type="rss"
+        text="Abbassa Le Bollette - Mercati e Prezzi"
+        title="Mercati e Prezzi Luce &amp; Gas"
+        description="Aggiornamenti quotidiani su PUN, PSV, IGI. Analisi volatilità e driver dei prezzi energia."
+        xmlUrl="https://www.abbassalebollette.it/feed/"
+        htmlUrl="https://www.abbassalebollette.it/news/mercati-prezzi/"
+        language="it"
+        category="prezzi-mercati"
+        tags="PUN, PSV, IGI, prezzi all'ingrosso, volatilità, bollette"
+      />
+
+      <!--
+        INVESTING.COM - Sezione Energia (IT)
+        URL sito: https://it.investing.com
+        URL feed RSS: https://it.investing.com/rss/news_14.rss
+        Contenuto: Quotazioni gas naturale (TTF), petrolio (Brent/WTI),
+                   elettricità, aggiornamenti in tempo reale
+        Frequenza aggiornamento: continuo
+      -->
+      <outline
+        type="rss"
+        text="Investing.com - Energia"
+        title="Investing.com Energia"
+        description="Quotazioni in tempo reale: TTF, Brent, WTI, elettricità europea. Notizie di mercato."
+        xmlUrl="https://it.investing.com/rss/news_14.rss"
+        htmlUrl="https://it.investing.com/commodities/energy"
+        language="it"
+        category="prezzi-mercati"
+        tags="TTF, Brent, WTI, gas naturale, petrolio, quotazioni, commodity"
+      />
+
+    </outline>
+
+
+    <!-- ============================================================
+         ISTRUZIONI PER L'USO
+         ============================================================
+         
+         Come importare questo file nel tuo RSS reader:
+         
+         1. FEEDLY (https://feedly.com)
+            - Vai su "Feeds" > "Import OPML"
+            - Carica questo file feed_energia_italia.xml
+            - I feed verranno organizzati nelle cartelle corrispondenti
+         
+         2. INOREADER (https://www.inoreader.com)
+            - Vai su Preferenze > Import/Export > Import OPML
+            - Carica il file — Inoreader supporta anche filtri keyword
+            - Suggerimento: crea filtri per "PUN", "PSV", "ARERA", "delibera"
+         
+         3. NEWSBLUR (https://newsblur.com)
+            - Account > Import > Import from OPML
+         
+         4. FEEDER (app mobile, https://feeder.co)
+            - Impostazioni > Import OPML
+         
+         KEYWORD CONSIGLIATI PER FILTRI:
+            Prezzi:    PUN, PSV, TTF, Brent, prezzo all'ingrosso
+            Normativa: ARERA, delibera, decreto, Gazzetta Ufficiale
+            Mercato:   dispacciamento, mercato libero, CER, FERZ
+            Europa:    REPowerEU, REMIT, codice di rete, capacity market
+
+         ============================================================ -->
+
+  </body>
+</opml>
