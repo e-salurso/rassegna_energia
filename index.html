@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Rassegna Energia Italia</title>
+  <title>Feed Energia Italia & Europa</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -19,244 +20,422 @@
       --text-dim: #94a3b8;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+```
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(56,189,248,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(56,189,248,0.03) 1px, transparent 1px);
-      background-size: 40px 40px;
-      pointer-events: none;
-      z-index: 0;
-    }
+/* Grid background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(56,189,248,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56,189,248,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
 
-    header {
-      position: relative;
-      z-index: 10;
-      padding: 2.5rem 2rem 2rem;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1rem;
-      background: linear-gradient(180deg, rgba(249,115,22,0.06) 0%, transparent 100%);
-    }
+/* Header */
+header {
+  position: relative;
+  z-index: 10;
+  padding: 2.5rem 2rem 2rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  background: linear-gradient(180deg, rgba(249,115,22,0.06) 0%, transparent 100%);
+}
 
-    .logo-area h1 {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: clamp(1.6rem, 4vw, 2.4rem);
-      letter-spacing: -0.03em;
-      line-height: 1.1;
-      color: #fff;
-    }
+.logo-area h1 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: #fff;
+}
 
-    .logo-area h1 span { color: var(--accent); }
+.logo-area h1 span {
+  color: var(--accent);
+}
 
-    .logo-area p {
-      margin-top: 0.4rem;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      font-weight: 300;
-      letter-spacing: 0.04em;
-    }
+.logo-area p {
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 300;
+  letter-spacing: 0.04em;
+}
 
-    .header-meta {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-    }
+.header-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
 
-    .badge {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 0.3rem 0.7rem;
-      border-radius: 2px;
-      border: 1px solid;
-    }
+.badge {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.7rem;
+  border-radius: 2px;
+  border: 1px solid;
+}
 
-    .badge-live { color: var(--accent3); border-color: var(--accent3); animation: pulse-badge 2s ease-in-out infinite; }
-    .badge-count { color: var(--accent2); border-color: var(--accent2); }
+.badge-live {
+  color: var(--accent3);
+  border-color: var(--accent3);
+  animation: pulse-badge 2s ease-in-out infinite;
+}
 
-    @keyframes pulse-badge {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
+@keyframes pulse-badge {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
 
-    .feed-area {
-      position: relative;
-      z-index: 1;
-      padding: 1.5rem 2rem 4rem;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
+.badge-count {
+  color: var(--accent2);
+  border-color: var(--accent2);
+}
 
-    .status-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.5rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid var(--border);
-      flex-wrap: wrap;
-      gap: 0.75rem;
-    }
+/* Category nav */
+.cat-nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(10,14,26,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
 
-    .status-info { font-size: 0.8rem; color: var(--text-muted); }
-    .status-info strong { color: var(--text); font-weight: 500; }
+.cat-nav::-webkit-scrollbar { display: none; }
 
-    .refresh-btn {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--accent2);
-      background: none;
-      border: 1px solid var(--accent2);
-      padding: 0.4rem 0.9rem;
-      border-radius: 2px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
+.cat-btn {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 1rem 1.2rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
 
-    .refresh-btn:hover { background: var(--accent2); color: var(--bg); }
-    .refresh-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.cat-btn:hover { color: var(--text); }
+.cat-btn.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
 
-    /* SKELETON */
-    .loading-grid { display: grid; gap: 1px; }
+/* Layout */
+.main-layout {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: calc(100vh - 120px);
+}
 
-    .skeleton { background: var(--surface); animation: shimmer 1.5s ease-in-out infinite; }
+/* Sidebar */
+aside {
+  border-right: 1px solid var(--border);
+  padding: 1.5rem 1rem;
+  position: sticky;
+  top: 49px;
+  height: calc(100vh - 49px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
 
-    @keyframes shimmer {
-      0%, 100% { opacity: 0.5; }
-      50% { opacity: 1; }
-    }
+.sidebar-section {
+  margin-bottom: 1.5rem;
+}
 
-    .skeleton-card {
-      height: 100px;
-      border-left: 3px solid var(--border);
-      padding: 1rem 1.2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-    }
+.sidebar-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 0 0.5rem;
+  margin-bottom: 0.5rem;
+}
 
-    .skeleton-line { border-radius: 3px; background: var(--border); }
+.source-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+  margin-bottom: 2px;
+}
 
-    /* ARTICLES */
-    .articles-grid {
-      display: grid;
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      overflow: hidden;
-    }
+.source-btn:hover { background: var(--surface); color: var(--text); }
+.source-btn.active { background: var(--surface2); color: var(--accent); }
 
-    .article-card {
-      background: var(--surface);
-      padding: 1.1rem 1.3rem;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 0.75rem;
-      align-items: start;
-      transition: background 0.15s;
-      text-decoration: none;
-      color: inherit;
-    }
+.source-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
 
-    .article-card:hover { background: var(--surface2); }
+.source-count {
+  margin-left: auto;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  background: var(--surface2);
+  padding: 0.1rem 0.4rem;
+  border-radius: 10px;
+}
 
-    .article-source-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-family: 'Syne', sans-serif;
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 0.4rem;
-    }
+/* Feed area */
+.feed-area {
+  padding: 1.5rem 2rem;
+}
 
-    .dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      flex-shrink: 0;
-      display: inline-block;
-    }
+/* Status bar */
+.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
 
-    .dot-orange { background: #f97316; }
-    .dot-blue   { background: #38bdf8; }
-    .dot-purple { background: #a78bfa; }
-    .dot-green  { background: #a3e635; }
-    .dot-yellow { background: #fbbf24; }
-    .dot-red    { background: #f87171; }
+.status-info {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
 
-    .article-title {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 500;
-      line-height: 1.4;
-      color: var(--text);
-      margin-bottom: 0.3rem;
-    }
+.status-info strong {
+  color: var(--text);
+  font-weight: 500;
+}
 
-    .article-desc {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
+.refresh-btn {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent2);
+  background: none;
+  border: 1px solid var(--accent2);
+  padding: 0.4rem 0.9rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
 
-    .article-meta { text-align: right; flex-shrink: 0; }
+.refresh-btn:hover {
+  background: var(--accent2);
+  color: var(--bg);
+}
 
-    .article-date { font-size: 0.72rem; color: var(--text-muted); white-space: nowrap; }
+/* Loading */
+.loading-grid {
+  display: grid;
+  gap: 1rem;
+}
 
-    .article-arrow { margin-top: 0.5rem; color: var(--border); font-size: 1rem; transition: color 0.15s; }
-    .article-card:hover .article-arrow { color: var(--accent); }
+.skeleton {
+  background: var(--surface);
+  border-radius: 4px;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
 
-    .empty-state {
-      padding: 4rem 2rem;
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      line-height: 1.8;
-    }
+@keyframes shimmer {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
 
-    @media (max-width: 600px) {
-      header { padding: 1.5rem 1rem 1rem; }
-      .feed-area { padding: 1rem 1rem 3rem; }
-    }
+.skeleton-card {
+  height: 110px;
+  border-left: 3px solid var(--border);
+  padding: 1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.skeleton-line {
+  border-radius: 3px;
+  background: var(--border);
+}
+
+/* Articles grid */
+.articles-grid {
+  display: grid;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.article-card {
+  background: var(--surface);
+  padding: 1.1rem 1.3rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+  transition: background 0.15s;
+  text-decoration: none;
+  color: inherit;
+}
+
+.article-card:hover {
+  background: var(--surface2);
+}
+
+.article-main {}
+
+.article-source-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.4rem;
+}
+
+.article-source-tag .dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+
+.article-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--text);
+  margin-bottom: 0.3rem;
+}
+
+.article-desc {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.article-meta {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.article-date {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.article-arrow {
+  margin-top: 0.5rem;
+  color: var(--border);
+  font-size: 1rem;
+  transition: color 0.15s;
+}
+
+.article-card:hover .article-arrow {
+  color: var(--accent);
+}
+
+/* Error state */
+.error-msg {
+  background: rgba(249,115,22,0.08);
+  border: 1px solid rgba(249,115,22,0.2);
+  border-radius: 4px;
+  padding: 0.8rem 1rem;
+  font-size: 0.8rem;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+/* Empty state */
+.empty-state {
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.empty-state p {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .main-layout {
+    grid-template-columns: 1fr;
+  }
+  aside {
+    display: none;
+  }
+  .feed-area {
+    padding: 1rem;
+  }
+  header {
+    padding: 1.5rem 1rem 1rem;
+  }
+}
+```
+
   </style>
 </head>
 <body>
 
 <header>
   <div class="logo-area">
-    <h1>⚡ Rassegna <span>Energia</span> Italia</h1>
+    <h1>⚡ Energia <span>Italia</span></h1>
     <p>Aggregatore notizie · Mercati energetici · Aggiornamento in tempo reale</p>
   </div>
   <div class="header-meta">
@@ -265,193 +444,152 @@
   </div>
 </header>
 
-<div class="feed-area">
-  <div class="status-bar">
-    <div class="status-info" id="status-info">Caricamento in corso...</div>
-    <button class="refresh-btn" id="refresh-btn" onclick="loadAllFeeds()">↺ Aggiorna</button>
-  </div>
-  <div id="feed-container"></div>
+<nav class="cat-nav">
+  <button class="cat-btn active" data-filter="all">Tutti</button>
+</nav>
+  </aside>
+
+  <main class="feed-area">
+    <div class="status-bar">
+      <div class="status-info" id="status-info">Caricamento in corso...</div>
+      <button class="refresh-btn" onclick="loadAllFeeds()">↺ Aggiorna</button>
+    </div>
+    <div id="feed-container">
+      <div class="loading-grid" id="loading-skeleton">
+        ${Array(6).fill(0).map(() => `
+          <div class="skeleton skeleton-card">
+            <div class="skeleton-line" style="height:10px;width:30%"></div>
+            <div class="skeleton-line" style="height:14px;width:85%"></div>
+            <div class="skeleton-line" style="height:12px;width:60%"></div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  </main>
 </div>
 
 <script>
-// ─────────────────────────────────────────────────────────────
-// FONTI — Google News RSS con query "site:" per forzare
-// articoli da ogni singola testata/istituzione.
-//
-// Come aggiungere una fonte:
-//   { label: "Nome", query: "site:dominio.it", dot: "colore" }
-// Colori disponibili: orange, blue, purple, green, yellow, red
-// ─────────────────────────────────────────────────────────────
+// ————————————————————————————
+// Feed sources from OPML
+// ————————————————————————————
 const FEEDS = [
-  // 🟠 Testate italiane specializzate
-  { label: "Staffetta Quotidiana",  query: "site:staffettaonline.com",    dot: "orange" },
-  { label: "Quotidiano Energia",    query: "site:quotidianoenergia.it",   dot: "orange" },
-  { label: "QualEnergia",           query: "site:qualenergia.it",         dot: "orange" },
-  { label: "Rinnovabili.it",        query: "site:rinnovabili.it",         dot: "orange" },
-  { label: "Energia Italia News",   query: "site:energiaitalia.news",     dot: "orange" },
-  { label: "Energia Mercato",       query: "site:energiamercato.it",      dot: "orange" },
-  // 🔵 Istituzioni italiane
-  { label: "ARERA",                 query: "ARERA delibera tariffe energia", dot: "blue" },
-  { label: "GME",                   query: "GME borsa elettrica PUN PSV", dot: "blue" },
-  { label: "GSE",                   query: "GSE incentivi rinnovabili fotovoltaico", dot: "blue" },
-  { label: "MASE",                  query: "MASE decreto energia sicurezza energetica", dot: "blue" },
-  // 🟢 Prezzi & Mercati
-  { label: "Prezzi Energia",        query: "PUN PSV prezzi all'ingrosso elettricità gas", dot: "green" },
-  { label: "Bollette & Tariffe",    query: "bollette luce gas tariffe famiglie 2026", dot: "green" },
-  { label: "TTF & Commodity",       query: "TTF gas naturale Brent prezzi commodity Europa", dot: "green" },
-  // 🟡 Normativa
-  { label: "Normativa Energia",     query: "decreto energia normativa legge 2026 Italia", dot: "yellow" },
-  { label: "FER & Rinnovabili",     query: "FER decreto rinnovabili incentivi CER", dot: "yellow" },
-  // 🟣 Europa & Internazionale
-  { label: "ACER",                  query: "ACER regolazione mercato europeo energia", dot: "purple" },
-  { label: "IEA",                   query: "IEA International Energy Agency report 2026", dot: "purple" },
-  { label: "EU Energy",             query: "Commissione Europea energia REPowerEU mercato", dot: "purple" },
+  // Testate Italiane
+  { title: "Staffetta Quotidiana", url: "https://www.staffettaonline.com/rss.aspx", category: "testate-italiane", color: "testate" },
+  { title: "Quotidiano Energia", url: "https://www.quotidianoenergia.it/feed/", category: "testate-italiane", color: "testate" },
+  { title: "QualEnergia", url: "https://www.qualenergia.it/feed/", category: "testate-italiane", color: "testate" },
+  { title: "Rinnovabili.it", url: "https://www.rinnovabili.it/feed/", category: "testate-italiane", color: "testate" },
+  { title: "Energia Italia News", url: "https://www.energiaitalia.news/feed/", category: "testate-italiane", color: "testate" },
+  { title: "Energia Mercato", url: "https://www.energiamercato.it/feed/", category: "testate-italiane", color: "testate" },
+  // Istituzioni Italiane
+  { title: "ARERA", url: "https://www.arera.it/rss/ultimenotizie.xml", category: "istituzioni-italiane", color: "istituzioni" },
+  { title: "GME", url: "https://www.mercatoelettrico.org/it/news/rss.aspx", category: "istituzioni-italiane", color: "istituzioni" },
+  { title: "GSE", url: "https://www.gse.it/feed", category: "istituzioni-italiane", color: "istituzioni" },
+  { title: "Gazzetta Ufficiale", url: "https://www.gazzettaufficiale.it/dynamicajax/pages/guri/rss.jsp?categoria=5", category: "istituzioni-italiane", color: "istituzioni" },
+  // Europee
+  { title: "ACER", url: "https://www.acer.europa.eu/rss.xml", category: "istituzioni-europee", color: "europee" },
+  { title: "IEA", url: "https://www.iea.org/rss/news.xml", category: "istituzioni-europee", color: "europee" },
+  { title: "EU Commission Energy", url: "https://energy.ec.europa.eu/news/rss_en", category: "istituzioni-europee", color: "europee" },
+  { title: "S&P Global / Platts", url: "https://www.spglobal.com/commodityinsights/en/rss-feed", category: "istituzioni-europee", color: "europee" },
+  // Prezzi
+  { title: "Abbassa Le Bollette", url: "https://www.abbassalebollette.it/feed/", category: "prezzi-mercati", color: "prezzi" },
+  { title: "Investing.com Energia", url: "https://it.investing.com/rss/news_14.rss", category: "prezzi-mercati", color: "prezzi" },
 ];
 
-// Proxy allorigins — usato solo per Google News (nessun blocco CORS dal browser)
-const PROXY = url => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}&charset=utf-8`;
-
-function gnUrl(query) {
-  return `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=it&gl=IT&ceid=IT:it`;
-}
+// CORS proxies — tentati in ordine fino al primo che funziona
+const PROXIES = [
+  url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+  url => `https://thingproxy.freeboard.io/fetch/${url}`,
+  url => `https://cors.eu.org/${url}`,
+];
 
 let allArticles = [];
+let currentFilter = "all";
 
-// ─── Utility ───
-function stripHtml(html) {
-  const d = document.createElement("div");
-  d.innerHTML = html || "";
-  return d.textContent || d.innerText || "";
+// ————————————————————————————
+// Fetch a single feed (with proxy fallback)
+// ————————————————————————————
+async function fetchWithFallback(url) {
+  for (const makeProxy of PROXIES) {
+    try {
+      const res = await fetch(makeProxy(url), { signal: AbortSignal.timeout(8000) });
+      if (!res.ok) continue;
+      const text = await res.text();
+      if (text && text.length > 100) return text;
+    } catch (e) {
+      // try next proxy
+    }
+  }
+  return null;
 }
 
-function timeAgo(date) {
-  if (!date || isNaN(date)) return "";
-  const diff = Math.floor((Date.now() - date) / 60000);
-  if (diff < 1)    return "Adesso";
-  if (diff < 60)   return diff + "min fa";
-  if (diff < 1440) return Math.floor(diff / 60) + "h fa";
-  return date.toLocaleDateString("it-IT", { day: "2-digit", month: "short" });
-}
-
-function escHtml(s) {
-  return String(s)
-    .replace(/&/g, "&amp;").replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-}
-
-// ─── Scheletri ───
-function showSkeletons() {
-  document.getElementById("feed-container").innerHTML =
-    `<div class="loading-grid">` +
-    Array(12).fill(0).map(() => `
-      <div class="skeleton skeleton-card">
-        <div class="skeleton-line" style="height:9px;width:25%"></div>
-        <div class="skeleton-line" style="height:14px;width:80%"></div>
-        <div class="skeleton-line" style="height:11px;width:50%"></div>
-      </div>`).join('') +
-    `</div>`;
-}
-
-// ─── Fetch singolo feed ───
 async function fetchFeed(feed) {
   try {
-    const url = gnUrl(feed.query);
-    const res = await fetch(PROXY(url));
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    if (!data.contents) throw new Error("empty");
+    const text = await fetchWithFallback(feed.url);
+    if (!text) throw new Error("All proxies failed");
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(text, "application/xml");
 
-    const xml = new DOMParser().parseFromString(data.contents, "text/xml");
-    const items = [...xml.querySelectorAll("item")];
+    // Handle both RSS and Atom
+    const items = [...xml.querySelectorAll("item"), ...xml.querySelectorAll("entry")];
 
-    return items.slice(0, 5).map(item => {
-      const rawTitle = item.querySelector("title")?.textContent?.trim() || "";
-      const link     = item.querySelector("link")?.textContent?.trim() || "#";
-      const pub      = item.querySelector("pubDate")?.textContent?.trim() || "";
-      const desc     = item.querySelector("description")?.textContent?.trim() || "";
-      // Google News mette "Titolo - NomeFonte" → estraiamo la fonte reale
-      const srcEl    = item.querySelector("source");
-      const srcName  = srcEl?.textContent?.trim() || feed.label;
-      // Pulizia titolo: rimuovi " - NomeFonte" finale
-      const title    = rawTitle.replace(/\s[-–]\s[^-–]+$/, "").trim() || rawTitle;
-
+    return items.slice(0, 8).map(item => {
+      const title = item.querySelector("title")?.textContent?.trim() || "Senza titolo";
+      const link = item.querySelector("link")?.getAttribute("href") ||
+                   item.querySelector("link")?.textContent?.trim() || "#";
+      const desc = item.querySelector("description, summary, content")?.textContent?.trim() || "";
+      const pubDate = item.querySelector("pubDate, published, updated")?.textContent?.trim() || "";
       return {
         title,
         link,
-        desc:      stripHtml(desc).slice(0, 200),
-        date:      pub ? new Date(pub) : null,
-        source:    srcName,
-        feedLabel: feed.label,
-        dot:       feed.dot,
+        desc: stripHtml(desc).substring(0, 180),
+        date: parseDate(pubDate),
+        source: feed.title,
+        category: feed.category,
+        color: feed.color,
       };
     });
   } catch (e) {
-    console.warn(`Feed non disponibile: ${feed.label} —`, e.message);
+    console.warn("Feed error:", feed.title, e.message);
     return [];
   }
 }
 
-// ─── Render ───
-function renderArticles() {
-  const container = document.getElementById("feed-container");
-
-  if (!allArticles.length) {
-    container.innerHTML = `
-      <div class="empty-state">
-        Nessun articolo caricato. Controlla la connessione e riprova.
-      </div>`;
-    return;
-  }
-
-  // Deduplicazione per titolo
-  const seen = new Set();
-  const unique = allArticles.filter(a => {
-    const key = a.title.toLowerCase().replace(/\s+/g, " ").slice(0, 70);
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
-
-  container.innerHTML =
-    `<div class="articles-grid">` +
-    unique.map(a => `
-      <a class="article-card" href="${escHtml(a.link)}" target="_blank" rel="noopener noreferrer">
-        <div>
-          <div class="article-source-tag">
-            <span class="dot dot-${a.dot}"></span>${escHtml(a.source)}
-          </div>
-          <div class="article-title">${escHtml(a.title)}</div>
-          ${a.desc ? `<div class="article-desc">${escHtml(a.desc)}</div>` : ""}
-        </div>
-        <div class="article-meta">
-          <div class="article-date">${timeAgo(a.date)}</div>
-          <div class="article-arrow">→</div>
-        </div>
-      </a>`).join("") +
-    `</div>`;
+function stripHtml(html) {
+  const div = document.createElement("div");
+  div.innerHTML = html;
+  return div.textContent || div.innerText || "";
 }
 
-// ─── Carica tutti i feed ───
+function parseDate(str) {
+  if (!str) return null;
+  try { return new Date(str); } catch { return null; }
+}
+
+function formatDate(d) {
+  if (!d) return "";
+  const now = new Date();
+  const diff = Math.floor((now - d) / 60000);
+  if (diff < 1) return "Adesso";
+  if (diff < 60) return diff + " min fa";
+  if (diff < 1440) return Math.floor(diff / 60) + "h fa";
+  return d.toLocaleDateString("it-IT", { day: "2-digit", month: "short" });
+}
+
+// ————————————————————————————
+// Load all feeds
+// ————————————————————————————
 async function loadAllFeeds() {
-  const btn = document.getElementById("refresh-btn");
-  btn.disabled = true;
-  btn.textContent = "↺ Carico...";
-  showSkeletons();
+  document.getElementById("loading-skeleton").style.display = "grid";
   document.getElementById("status-info").textContent = "Caricamento in corso...";
 
-  // Carico in batch da 4 per non saturare allorigins
-  const batchSize = 4;
-  allArticles = [];
-  for (let i = 0; i < FEEDS.length; i += batchSize) {
-    const batch = FEEDS.slice(i, i + batchSize);
-    const results = await Promise.allSettled(batch.map(fetchFeed));
-    allArticles.push(...results.flatMap(r => r.status === "fulfilled" ? r.value : []));
-  }
-
-  // Ordine cronologico
-  allArticles = allArticles
-    .filter(a => a.link && a.link !== "#")
+  const results = await Promise.allSettled(FEEDS.map(fetchFeed));
+  allArticles = results
+    .flatMap(r => r.status === "fulfilled" ? r.value : [])
+    .filter(a => a.title && a.link !== "#")
     .sort((a, b) => (b.date || 0) - (a.date || 0));
+
+  document.getElementById("loading-skeleton").style.display = "none";
 
   const now = new Date().toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" });
   document.getElementById("status-info").innerHTML =
@@ -459,13 +597,142 @@ async function loadAllFeeds() {
   document.getElementById("total-badge").textContent = allArticles.length + " articoli";
 
   renderArticles();
-  btn.disabled = false;
-  btn.textContent = "↺ Aggiorna";
+  buildSidebar();
 }
 
-// ─── Init ───
+// ————————————————————————————
+// Render articles
+// ————————————————————————————
+function renderArticles() {
+  const container = document.getElementById("feed-container");
+  let filtered = allArticles;
+
+  if (currentFilter !== "all") {
+    filtered = allArticles.filter(a => a.category === currentFilter);
+  }
+
+  if (filtered.length === 0) {
+    container.innerHTML = `<div class="empty-state"><p>Nessun articolo trovato per questa categoria.<br>Alcuni feed potrebbero non essere accessibili.</p></div>`;
+    return;
+  }
+
+  const html = `<div class="articles-grid">` +
+    filtered.map(a => `
+      <a class="article-card" href="${escHtml(a.link)}" target="_blank" rel="noopener">
+        <div class="article-main">
+          <div class="article-source-tag">
+            <span class="dot dot-${a.color}"></span>
+            ${escHtml(a.source)}
+          </div>
+          <div class="article-title">${escHtml(a.title)}</div>
+          ${a.desc ? `<div class="article-desc">${escHtml(a.desc)}</div>` : ''}
+        </div>
+        <div class="article-meta">
+          <div class="article-date">${formatDate(a.date)}</div>
+          <div class="article-arrow">→</div>
+        </div>
+      </a>
+    `).join('') +
+  `</div>`;
+
+  container.innerHTML = html;
+}
+
+function escHtml(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+// ————————————————————————————
+// Sidebar sources
+// ————————————————————————————
+function buildSidebar() {
+  const counts = {};
+  allArticles.forEach(a => { counts[a.source] = (counts[a.source] || 0) + 1; });
+
+  const grouped = {};
+  FEEDS.forEach(f => {
+    if (!grouped[f.category]) grouped[f.category] = [];
+    grouped[f.category].push(f);
+  });
+
+  const labels = {
+    "testate-italiane": "📰 Testate Italiane",
+    "istituzioni-italiane": "🏛️ Istituzioni IT",
+    "istituzioni-europee": "🇪🇺 Europa & Int.",
+    "prezzi-mercati": "📈 Prezzi & Mercati",
+  };
+
+  let html = "";
+  Object.entries(grouped).forEach(([cat, feeds]) => {
+    html += `<div class="sidebar-section"><div class="sidebar-label">${labels[cat] || cat}</div>`;
+    feeds.forEach(f => {
+      const n = counts[f.title] || 0;
+      html += `<button class="source-btn" data-source="${escHtml(f.title)}" onclick="filterBySource('${escHtml(f.title)}')">
+        <span class="source-dot dot-${f.color}"></span>
+        ${escHtml(f.title)}
+        ${n > 0 ? `<span class="source-count">${n}</span>` : ''}
+      </button>`;
+    });
+    html += `</div>`;
+  });
+
+  document.getElementById("source-list").innerHTML = html;
+}
+
+function filterBySource(sourceName) {
+  currentFilter = "source:" + sourceName;
+  const filtered = allArticles.filter(a => a.source === sourceName);
+
+  if (filtered.length === 0) {
+    document.getElementById("feed-container").innerHTML =
+      `<div class="error-msg">Nessun articolo caricato da "${sourceName}". Il feed potrebbe essere non accessibile.</div>`;
+    return;
+  }
+
+  document.getElementById("feed-container").innerHTML =
+    `<div class="articles-grid">` +
+    filtered.map(a => `
+      <a class="article-card" href="${escHtml(a.link)}" target="_blank" rel="noopener">
+        <div class="article-main">
+          <div class="article-source-tag">
+            <span class="dot dot-${a.color}"></span>${escHtml(a.source)}
+          </div>
+          <div class="article-title">${escHtml(a.title)}</div>
+          ${a.desc ? `<div class="article-desc">${escHtml(a.desc)}</div>` : ''}
+        </div>
+        <div class="article-meta">
+          <div class="article-date">${formatDate(a.date)}</div>
+          <div class="article-arrow">→</div>
+        </div>
+      </a>
+    `).join('') +
+    `</div>`;
+}
+
+// ————————————————————————————
+// Category nav
+// ————————————————————————————
+document.querySelectorAll(".cat-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    currentFilter = btn.dataset.filter;
+    renderArticles();
+  });
+});
+
+// ————————————————————————————
+// Init
+// ————————————————————————————
 loadAllFeeds();
+
+// Auto-refresh every 15 minutes
 setInterval(loadAllFeeds, 15 * 60 * 1000);
 </script>
+
 </body>
 </html>
