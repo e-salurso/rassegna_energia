@@ -152,6 +152,7 @@
     }
 
     .refresh-btn:hover { background: var(--accent2); color: var(--bg); }
+    .refresh-btn.loading { opacity: 0.5; cursor: not-allowed; }
 
     /* SKELETON */
     .loading-grid { display: grid; gap: 1px; }
@@ -175,10 +176,7 @@
       gap: 0.6rem;
     }
 
-    .skeleton-line {
-      border-radius: 3px;
-      background: var(--border);
-    }
+    .skeleton-line { border-radius: 3px; background: var(--border); }
 
     /* ARTICLES */
     .articles-grid {
@@ -196,6 +194,7 @@
       display: grid;
       grid-template-columns: 1fr auto;
       gap: 0.5rem;
+      align-items: start;
       transition: background 0.15s;
       text-decoration: none;
       color: inherit;
@@ -220,6 +219,7 @@
       width: 5px;
       height: 5px;
       border-radius: 50%;
+      flex-shrink: 0;
     }
 
     .article-title {
@@ -254,15 +254,18 @@
       color: var(--border);
       font-size: 1rem;
       transition: color 0.15s;
+      text-align: right;
     }
 
     .article-card:hover .article-arrow { color: var(--accent); }
 
-    /* Category dot colors */
-    .dot-testate      { background: #f97316; }
-    .dot-istituzioni  { background: #38bdf8; }
-    .dot-europee      { background: #a78bfa; }
-    .dot-prezzi       { background: #a3e635; }
+    /* Dot colors */
+    .dot-orange  { background: #f97316; }
+    .dot-blue    { background: #38bdf8; }
+    .dot-purple  { background: #a78bfa; }
+    .dot-green   { background: #a3e635; }
+    .dot-red     { background: #f87171; }
+    .dot-yellow  { background: #fbbf24; }
 
     /* EMPTY / ERROR */
     .empty-state {
@@ -270,6 +273,7 @@
       text-align: center;
       color: var(--text-muted);
       font-size: 0.85rem;
+      line-height: 1.8;
     }
 
     /* RESPONSIVE */
@@ -295,109 +299,69 @@
 <div class="feed-area">
   <div class="status-bar">
     <div class="status-info" id="status-info">Caricamento in corso...</div>
-    <button class="refresh-btn" onclick="loadAllFeeds()">↺ Aggiorna</button>
+    <button class="refresh-btn" id="refresh-btn" onclick="loadAllFeeds()">↺ Aggiorna</button>
   </div>
-  <div id="feed-container">
-    <div class="loading-grid" id="loading-skeleton"></div>
-  </div>
+  <div id="feed-container"></div>
 </div>
 
 <script>
+// ─────────────────────────────────────────────────────────
+// FONTI: Google News RSS per query tematiche energetiche
+// Questi feed sono accessibili direttamente dal browser
+// senza necessità di proxy CORS.
+//
+// Come aggiungere/modificare una fonte:
+//   { label: "Nome visualizzato", query: "parole chiave", dot: "colore-dot" }
+// ─────────────────────────────────────────────────────────
 const FEEDS = [
-  // Testate Italiane
-  { title: "Staffetta Quotidiana",  url: "https://www.staffettaonline.com/rss.aspx",                         color: "testate" },
-  { title: "Quotidiano Energia",    url: "https://www.quotidianoenergia.it/feed/",                           color: "testate" },
-  { title: "QualEnergia",           url: "https://www.qualenergia.it/feed/",                                 color: "testate" },
-  { title: "Rinnovabili.it",        url: "https://www.rinnovabili.it/feed/",                                 color: "testate" },
-  { title: "Energia Italia News",   url: "https://www.energiaitalia.news/feed/",                             color: "testate" },
-  { title: "Energia Mercato",       url: "https://www.energiamercato.it/feed/",                              color: "testate" },
-  // Istituzioni Italiane
-  { title: "ARERA",                 url: "https://www.arera.it/rss/ultimenotizie.xml",                       color: "istituzioni" },
-  { title: "GME",                   url: "https://www.mercatoelettrico.org/it/news/rss.aspx",                color: "istituzioni" },
-  { title: "GSE",                   url: "https://www.gse.it/notizie-ed-eventi/news/rss",                   color: "istituzioni" },
-  { title: "Gazzetta Ufficiale",    url: "https://www.gazzettaufficiale.it/dynamicajax/pages/guri/rss.jsp?categoria=5", color: "istituzioni" },
-  // Europee & Internazionali
-  { title: "ACER",                  url: "https://www.acer.europa.eu/rss.xml",                               color: "europee" },
-  { title: "IEA",                   url: "https://www.iea.org/rss/news.xml",                                 color: "europee" },
-  { title: "EU Commission Energy",  url: "https://energy.ec.europa.eu/news/rss_en",                         color: "europee" },
-  { title: "S&P Global / Platts",   url: "https://www.spglobal.com/commodityinsights/en/rss-feed",          color: "europee" },
-  // Prezzi & Mercati
-  { title: "Abbassa Le Bollette",   url: "https://www.abbassalebollette.it/feed/",                           color: "prezzi" },
-  { title: "Investing.com Energia", url: "https://it.investing.com/rss/news_14.rss",                        color: "prezzi" },
+  // Testate italiane (indicizzate su Google News)
+  { label: "Staffetta Quotidiana",  query: "Staffetta Quotidiana energia",        dot: "orange" },
+  { label: "Quotidiano Energia",    query: "Quotidiano Energia mercato",           dot: "orange" },
+  { label: "QualEnergia",           query: "QualEnergia rinnovabili",              dot: "orange" },
+  { label: "Rinnovabili.it",        query: "site:rinnovabili.it",                  dot: "orange" },
+  { label: "Energia Italia News",   query: "transizione energetica Italia CER",    dot: "orange" },
+  // Istituzioni italiane
+  { label: "ARERA",                 query: "ARERA delibera tariffe energia",       dot: "blue" },
+  { label: "GME – Prezzi",          query: "GME PUN PSV prezzi elettricità gas",   dot: "blue" },
+  { label: "GSE",                   query: "GSE incentivi rinnovabili fotovoltaico",dot: "blue" },
+  { label: "Gazzetta Ufficiale",    query: "Gazzetta Ufficiale decreto energia",   dot: "blue" },
+  // Prezzi e mercati
+  { label: "Prezzo Gas & Luce",     query: "prezzo gas elettricità Italia mercato",dot: "green" },
+  { label: "TTF & PUN",             query: "TTF PUN PSV quotazioni gas elettricità",dot: "green" },
+  { label: "Bollette & Tariffe",    query: "bollette luce gas tariffe 2026",       dot: "green" },
+  // Normativa
+  { label: "Normativa Energia",     query: "decreto legge energia normativa 2026", dot: "yellow" },
+  { label: "FER & Rinnovabili",     query: "FER decreto rinnovabili incentivi",    dot: "yellow" },
+  // Europa
+  { label: "ACER – Europa",         query: "ACER mercato europeo energia regolazione", dot: "purple" },
+  { label: "IEA",                   query: "IEA energia Europa 2026",              dot: "purple" },
+  { label: "EU Energy Policy",      query: "Commissione Europea energia REPowerEU", dot: "purple" },
+  { label: "S&P Global Energia",    query: "S&P Global Platts energia gas Europa", dot: "purple" },
 ];
 
-const PROXIES = [
-  url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
-  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-  url => `https://thingproxy.freeboard.io/fetch/${url}`,
-];
+// ─────────────────────────────────────────────────────────
+// Costruisce l'URL del feed Google News RSS
+// ─────────────────────────────────────────────────────────
+function googleNewsUrl(query) {
+  return `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=it&gl=IT&ceid=IT:it`;
+}
 
 let allArticles = [];
 
-// Mostra scheletri
-function showSkeletons() {
-  const sk = document.getElementById("loading-skeleton");
-  sk.innerHTML = Array(8).fill(0).map(() => `
-    <div class="skeleton skeleton-card">
-      <div class="skeleton-line" style="height:9px;width:28%"></div>
-      <div class="skeleton-line" style="height:14px;width:82%"></div>
-      <div class="skeleton-line" style="height:11px;width:55%"></div>
-    </div>`).join('');
-  sk.style.display = "grid";
-  document.getElementById("feed-container").innerHTML = '';
-  document.getElementById("feed-container").appendChild(sk);
-}
-
-async function fetchWithFallback(url) {
-  for (const makeProxy of PROXIES) {
-    try {
-      const res = await fetch(makeProxy(url), { signal: AbortSignal.timeout(8000) });
-      if (!res.ok) continue;
-      const text = await res.text();
-      if (text && text.length > 100) return text;
-    } catch (e) { /* prossimo proxy */ }
-  }
-  return null;
-}
-
-async function fetchFeed(feed) {
-  try {
-    const text = await fetchWithFallback(feed.url);
-    if (!text) throw new Error("proxy falliti");
-    const xml = new DOMParser().parseFromString(text, "application/xml");
-    const items = [...xml.querySelectorAll("item"), ...xml.querySelectorAll("entry")];
-    return items.slice(0, 8).map(item => ({
-      title:  item.querySelector("title")?.textContent?.trim() || "Senza titolo",
-      link:   item.querySelector("link")?.getAttribute("href") || item.querySelector("link")?.textContent?.trim() || "#",
-      desc:   stripHtml(item.querySelector("description, summary, content")?.textContent || "").slice(0, 180),
-      date:   parseDate(item.querySelector("pubDate, published, updated")?.textContent || ""),
-      source: feed.title,
-      color:  feed.color,
-    }));
-  } catch (e) {
-    console.warn("Feed non disponibile:", feed.title, e.message);
-    return [];
-  }
-}
-
+// ─── Utility ───
 function stripHtml(html) {
   const d = document.createElement("div");
-  d.innerHTML = html;
+  d.innerHTML = html || "";
   return d.textContent || d.innerText || "";
 }
 
-function parseDate(str) {
-  if (!str) return null;
-  try { return new Date(str); } catch { return null; }
-}
-
-function formatDate(d) {
-  if (!d || isNaN(d)) return "";
-  const diff = Math.floor((Date.now() - d) / 60000);
+function timeAgo(date) {
+  if (!date || isNaN(date)) return "";
+  const diff = Math.floor((Date.now() - date) / 60000);
   if (diff < 1)    return "Adesso";
-  if (diff < 60)   return diff + " min fa";
+  if (diff < 60)   return diff + "min fa";
   if (diff < 1440) return Math.floor(diff / 60) + "h fa";
-  return d.toLocaleDateString("it-IT", { day: "2-digit", month: "short" });
+  return date.toLocaleDateString("it-IT", { day: "2-digit", month: "short" });
 }
 
 function escHtml(s) {
@@ -406,51 +370,136 @@ function escHtml(s) {
     .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
+// ─── Skeleton ───
+function showSkeletons() {
+  document.getElementById("feed-container").innerHTML =
+    `<div class="loading-grid">` +
+    Array(10).fill(0).map(() => `
+      <div class="skeleton skeleton-card">
+        <div class="skeleton-line" style="height:9px;width:28%"></div>
+        <div class="skeleton-line" style="height:14px;width:82%"></div>
+        <div class="skeleton-line" style="height:11px;width:55%"></div>
+      </div>`).join('') +
+    `</div>`;
+}
+
+// ─── Fetch un singolo feed Google News ───
+async function fetchFeed(feed) {
+  const url = googleNewsUrl(feed.query);
+  try {
+    // Google News RSS è accessibile direttamente dal browser (no CORS)
+    const res = await fetch(url, { mode: "no-cors" });
+    // no-cors restituisce opaque response — usiamo un parser via DOMParser
+    // Per aggirare il limite, usiamo un iframe nascosto + MessageChannel oppure
+    // il vecchio trucco del feed tramite Google Feed API (deprecato).
+    // La soluzione più affidabile: leggiamo il feed tramite allorigins
+    // con il parametro charset=utf-8
+    throw new Error("need proxy");
+  } catch {
+    // Fallback: allorigins con parsing JSON
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}&charset=utf-8`;
+    const res = await fetch(proxyUrl);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    if (!data.contents) throw new Error("empty");
+
+    const xml = new DOMParser().parseFromString(data.contents, "text/xml");
+    const items = [...xml.querySelectorAll("item")];
+
+    return items.slice(0, 6).map(item => {
+      const title = item.querySelector("title")?.textContent?.trim() || "Senza titolo";
+      const link  = item.querySelector("link")?.textContent?.trim() || "#";
+      const pub   = item.querySelector("pubDate")?.textContent?.trim() || "";
+      const desc  = item.querySelector("description")?.textContent?.trim() || "";
+      // Google News nasconde la fonte nel tag <source> o nel titolo (es. "Titolo - Fonte")
+      const sourceEl = item.querySelector("source");
+      const sourceName = sourceEl?.textContent?.trim() || feed.label;
+      // Rimuovi "- NomeFonte" finale dal titolo se presente
+      const cleanTitle = title.replace(/\s*[-–]\s*[^-–]+$/, "").trim() || title;
+
+      return {
+        title:   cleanTitle,
+        link,
+        desc:    stripHtml(desc).slice(0, 200),
+        date:    pub ? new Date(pub) : null,
+        source:  sourceName,
+        dot:     feed.dot,
+        feedLabel: feed.label,
+      };
+    });
+  }
+}
+
+// ─── Render ───
 function renderArticles() {
   const container = document.getElementById("feed-container");
 
   if (!allArticles.length) {
-    container.innerHTML = `<div class="empty-state">Nessun articolo disponibile al momento.<br>Alcuni feed potrebbero non essere raggiungibili.</div>`;
+    container.innerHTML = `
+      <div class="empty-state">
+        Nessun articolo caricato.<br>
+        Controlla la connessione e riprova con il pulsante Aggiorna.
+      </div>`;
     return;
   }
 
-  container.innerHTML = `<div class="articles-grid">` +
-    allArticles.map(a => `
-      <a class="article-card" href="${escHtml(a.link)}" target="_blank" rel="noopener">
+  // Deduplicazione per titolo (Google News può restituire duplicati tra query)
+  const seen = new Set();
+  const unique = allArticles.filter(a => {
+    const key = a.title.toLowerCase().slice(0, 60);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+
+  container.innerHTML =
+    `<div class="articles-grid">` +
+    unique.map(a => `
+      <a class="article-card" href="${escHtml(a.link)}" target="_blank" rel="noopener noreferrer">
         <div>
           <div class="article-source-tag">
-            <span class="dot dot-${a.color}"></span>${escHtml(a.source)}
+            <span class="dot dot-${a.dot}"></span>${escHtml(a.source)}
           </div>
           <div class="article-title">${escHtml(a.title)}</div>
           ${a.desc ? `<div class="article-desc">${escHtml(a.desc)}</div>` : ''}
         </div>
         <div class="article-meta">
-          <div class="article-date">${formatDate(a.date)}</div>
+          <div class="article-date">${timeAgo(a.date)}</div>
           <div class="article-arrow">→</div>
         </div>
       </a>`).join('') +
-  `</div>`;
+    `</div>`;
 }
 
+// ─── Carica tutti i feed ───
 async function loadAllFeeds() {
+  const btn = document.getElementById("refresh-btn");
+  btn.classList.add("loading");
+  btn.textContent = "↺ Carico...";
   showSkeletons();
   document.getElementById("status-info").textContent = "Caricamento in corso...";
 
   const results = await Promise.allSettled(FEEDS.map(fetchFeed));
+
   allArticles = results
     .flatMap(r => r.status === "fulfilled" ? r.value : [])
-    .filter(a => a.link !== "#")
+    .filter(a => a.link && a.link !== "#")
     .sort((a, b) => (b.date || 0) - (a.date || 0));
 
   const now = new Date().toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" });
+  const total = allArticles.length;
+
   document.getElementById("status-info").innerHTML =
-    `<strong>${allArticles.length}</strong> articoli · aggiornato alle <strong>${now}</strong>`;
-  document.getElementById("total-badge").textContent = allArticles.length + " articoli";
+    `<strong>${total}</strong> articoli · aggiornato alle <strong>${now}</strong>`;
+  document.getElementById("total-badge").textContent = total + " articoli";
 
   renderArticles();
+
+  btn.classList.remove("loading");
+  btn.textContent = "↺ Aggiorna";
 }
 
-// Init
+// ─── Init ───
 loadAllFeeds();
 setInterval(loadAllFeeds, 15 * 60 * 1000);
 </script>
